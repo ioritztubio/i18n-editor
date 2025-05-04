@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.jvms</groupId>
 	<artifactId>i18n-editor</artifactId>
@@ -22,9 +24,9 @@
 			<version>21.0</version>
 		</dependency>
 		<dependency>
-		    <groupId>org.slf4j</groupId>
-		    <artifactId>slf4j-simple</artifactId>
-		    <version>1.7.22</version>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<version>1.7.22</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -67,21 +69,21 @@
 				</executions>
 			</plugin>
 			<plugin>
-			 	<groupId>sh.tak.appbundler</groupId>
-			  	<artifactId>appbundle-maven-plugin</artifactId>
-			  	<version>1.2.0</version>
-			  	<executions>
-			    	<execution>
-			      		<phase>package</phase>
-			      		<goals>
-			        		<goal>bundle</goal>
-			      		</goals>
-			      		<configuration>
-					    	<mainClass>com.jvms.i18neditor.Main</mainClass>
-					    	<iconFile>images/icons.icns</iconFile>
-					  	</configuration>
-			    	</execution>
-			  	</executions>
+				<groupId>sh.tak.appbundler</groupId>
+				<artifactId>appbundle-maven-plugin</artifactId>
+				<version>1.2.0</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>bundle</goal>
+						</goals>
+						<configuration>
+							<mainClass>com.jvms.i18neditor.Main</mainClass>
+							<iconFile>images/icons.icns</iconFile>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<groupId>com.akathist.maven.plugins.launch4j</groupId>
@@ -95,8 +97,10 @@
 						</goals>
 						<configuration>
 							<headerType>gui</headerType>
-							<outfile>${project.build.directory}/${project.artifactId}-${project.version}/${project.artifactId}.exe</outfile>
-							<jar>${project.build.directory}/${project.artifactId}-${project.version}-jar-with-dependencies.jar</jar>
+							<outfile>
+								${project.build.directory}/${project.artifactId}-${project.version}/${project.artifactId}.exe</outfile>
+							<jar>
+								${project.build.directory}/${project.artifactId}-${project.version}-jar-with-dependencies.jar</jar>
 							<errTitle>i18n Editor</errTitle>
 							<classPath>
 								<mainClass>com.jvms.i18neditor.Main</mainClass>
@@ -110,24 +114,58 @@
 				</executions>
 			</plugin>
 			<plugin>
-			  	<groupId>org.apache.maven.plugins</groupId>
-			  	<artifactId>maven-antrun-plugin</artifactId>
-			  	<version>1.8</version>
-			  	<executions>
-			    	<execution>
-			      		<phase>install</phase>
-			      		<goals>
-			        		<goal>run</goal>
-			      		</goals>
-			      		<configuration>
-			        		<target>
-			          			<copy file="${project.build.directory}/${project.artifactId}-${project.version}-jar-with-dependencies.jar" 
-			          				  toFile="${project.build.directory}/${project.artifactId}-${project.version}/${project.artifactId}.jar"/>
-			        		</target>
-			      		</configuration>
-		    		</execution>
-			  	</executions>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.8</version>
+				<executions>
+					<execution>
+						<phase>install</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target>
+								<copy
+									file="${project.build.directory}/${project.artifactId}-${project.version}-jar-with-dependencies.jar"
+									toFile="${project.build.directory}/${project.artifactId}-${project.version}/${project.artifactId}.jar" />
+							</target>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
+	<profiles>
+		<profile>
+			<id>coverage</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.jacoco</groupId>
+						<artifactId>jacoco-maven-plugin</artifactId>
+						<version>0.8.7</version>
+						<executions>
+							<execution>
+								<id>prepare-agent</id>
+								<goals>
+									<goal>prepare-agent</goal>
+								</goals>
+							</execution>
+							<execution>
+								<id>report</id>
+								<goals>
+									<goal>report</goal>
+								</goals>
+								<configuration>
+									<formats>
+										<format>XML</format>
+									</formats>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>
